@@ -16,15 +16,27 @@ eq_list = equation.split(" ")
 # checks for duplicate spaces
 xs_spaces = []
 
-for n in range(len(eq_list)):
-    if eq_list[n] == " " and eq_list[n+1] == " ":
-        xs_spaces.insert(0, n)
-        #print( n)
-for n in xs_spaces:    
-    del eq_list[n]
-
-
+def list_parse(eq_list):
+    xNew = []
+    for n in range(0, len(eq_list)):
+        if xNew == []:
+            xNew.append("")
+        elif eq_list[n] == " ":
+            continue
+        elif eq_list[n] in ("1","2","3","4","5","6","7","8","9","0"):
+            xNew[-1] = xNew[-1] + eq_list[n]
+        else:
+            xNew.append(eq_list[n])
+            xNew.append("")    
+            return xNew
+           
+    for n in xNew:
+        try:
+            int(xNew[n])
+        except ValueError:
+            continue
     
+eq_list = list_parse(eq_list)    
 step = 0
 
 def initial_test(eq_list, step):
