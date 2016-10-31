@@ -1,12 +1,14 @@
-# ------------------------------------
-# BIDMAS Walker, v 0.1, 
-# coded by Adam Deeley 
-# ------------------------------------
+""" ------------------------------------
+BIDMAS Walker, v 0.1, 
+coded by Adam Deeley 
 
-# to do:
-# 1. add iterators to recursive functions
-# 2. clean up logic
-# 3 round to 2 dp
+to do:
+1. add iterators to recursive functions
+2. clean up logic
+3 round to 2 dp
+4 call float once on the list instead of each function call
+------------------------------------"""
+
 
 # takes a string from the user and splits this into a list
 equation = input("Please input the equation you would like to step through. \n")
@@ -32,14 +34,15 @@ def list_parse(eq_list):
            
     for n in xNew:
         try:
-            int(xNew[n])
+            int(xNew[n]) # fix this somehow
         except ValueError:
             continue
-    
-eq_list = list_parse(eq_list)    
+  
+#eq_list = list_parse(eq_list) 
+
 step = 0
 
-def initial_test(eq_list, step):
+def find_operands(eq_list, step):
     if "**" in eq_list and len(eq_list) > 1:
         int_run(eq_list, step)
     elif "/" in eq_list and len(eq_list) > 1:
@@ -72,18 +75,7 @@ def int_run(eq_list, step):
     
     # checks if the operator is still in eq_list and calls the run again. Moves onto the 
     # next operator in bidmas if not.
-    if "**" in eq_list and len(eq_list) > 1:
-        int_run(eq_list, step)
-    elif "/" in eq_list and len(eq_list) > 1:
-        div_run(eq_list, step)
-    elif "*" in eq_list and len(eq_list) > 1:
-        multi_run(eq_list, step)
-    elif "+" in eq_list and len(eq_list) > 1:
-        plus_run(eq_list, step)
-    elif "-" in eq_list and len(eq_list) > 1:
-        minus_run(eq_list, step)
-    else:
-        print("Done")
+    find_operands(eq_list, step)
 
 def div_run(eq_list, step):
     """loop over the list and add or subtract the numbers,  then add back to list and 
@@ -102,16 +94,8 @@ def div_run(eq_list, step):
             print("Updated equation: ", eq_list)
             break
     
-    if "/" in eq_list and len(eq_list) > 1:
-        div_run(eq_list, step)
-    elif "*" in eq_list and len(eq_list) > 1:
-        multi_run(eq_list, step)
-    elif "+" in eq_list and len(eq_list) > 1:
-        plus_run(eq_list, step)
-    elif "-" in eq_list and len(eq_list) > 1:
-        minus_run(eq_list, step)
-    else:
-        print("Done")
+    find_operands(eq_list, step)
+        
 def multi_run(eq_list, step):
     """loop over the list and add or subtract the numbers,  then add back to list and 
         remove the adjacent values"""
@@ -129,14 +113,7 @@ def multi_run(eq_list, step):
             print("Updated equation: ", eq_list)
             break
     
-    if "*" in eq_list and len(eq_list) > 1:
-        multi_run(eq_list, step)
-    elif "+" in eq_list and len(eq_list) > 1:
-        plus_run(eq_list, step)
-    elif "-" in eq_list and len(eq_list) > 1:
-        minus_run(eq_list, step)
-    else:
-        print("Done")
+    find_operands(eq_list, step)
         
 def plus_run(eq_list, step):
     """loop over the list and add or subtract the numbers,  then add back to list and 
@@ -155,13 +132,8 @@ def plus_run(eq_list, step):
             print("Updated equation: ", eq_list)
             break
     
-    if "+" in eq_list and len(eq_list) > 1:
-        plus_run(eq_list, step)
-    elif "-" in eq_list and len(eq_list) > 1:
-        minus_run(eq_list, step)
-    else:
-        print("Done")
-
+    find_operands(eq_list, step)
+    
 def minus_run(eq_list, step):
     """loop over the list and add or subtract the numbers,  then add back to list and 
         remove the adjacent values"""
@@ -179,10 +151,7 @@ def minus_run(eq_list, step):
             print("Updated equation: ", eq_list)
             break
     
-    if len(eq_list) > 1:
-        minus_run(eq_list, step)   
-    else:
-        print("-----Done-----")        
+    find_operands(eq_list, step)     
         
-initial_test(eq_list, step)   # calls the highest function from bidmas given - only 'dmas ATM
+find_operands(eq_list, step)   # calls the highest function from bidmas given - only 'dmas ATM
    
